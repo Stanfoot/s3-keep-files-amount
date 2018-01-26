@@ -19,3 +19,4 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /go/bin/s3-keep-f
 
 From alpine:latest
 COPY --from=builder /go/bin/s3-keep-files-amount /usr/bin/s3-keep-files-amount
+RUN apk add --no-cache ca-certificates
