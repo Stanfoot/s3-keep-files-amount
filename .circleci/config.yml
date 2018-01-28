@@ -17,10 +17,10 @@ jobs:
           command: docker tag ${OWNER}/${IMAGE_NAME}:$CIRCLE_TAG ${OWNER}/${IMAGE_NAME}:latest
       - run:
           name: Docker Login
-          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+          command: docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
       - run:
           name: Push image to registory
-          command: docker push ${OWNER}/${IMAGE_NAME}:$CIRCLE_TAG
+          command: docker push ${OWNER}/${IMAGE_NAME}:$CIRCLE_TAG ${OWNER}/${IMAGE_NAME}:latest
 workflows:
   version: 2
   build:
