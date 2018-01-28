@@ -8,10 +8,11 @@ jobs:
       - setup_remote_docker:
           version: 17.03.0-ce
           docker_layer_caching: true
+      - checkout
       - run:
           name: Build AND PUSH
           command: |
-            docker build -t   ${OWNER}/${IMAGE_NAME}:$CIRCLE_TAG .
+            docker build -t  ${OWNER}/${IMAGE_NAME}:$CIRCLE_TAG .
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push ${OWNER}/${IMAGE_NAME}:$CIRCLE_TAG
 workflows:
