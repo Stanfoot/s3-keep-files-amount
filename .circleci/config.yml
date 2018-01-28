@@ -6,7 +6,7 @@ jobs:
     working_directory: /go/src/github.com/project/repo
     steps:
       - setup_remote_docker:
-          version: 17.03.0-ce
+          version: 17.11.0-ce
           docker_layer_caching: true
       - checkout
       - run:
