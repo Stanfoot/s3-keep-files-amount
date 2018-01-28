@@ -3,26 +3,29 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.9.3
-    working_directory: /go/src/github.com/{{.CIRCLE_PROJECT_USERNAME}}/{{.CIRCLE_PROJECT_REPONAME}}
+    working_directory: /go/src/github.com/project/repo
     steps:
       - setup_remote_docker:
-          version: 17.09.0-ce
+          version: 17.03.0-ce
           docker_layer_caching: true
       - run:
           name: Install Docker client
           command: |
             set -x
-            VER="17.09.0-ce"
-            curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
+            VER="17.03.0-ce"
+            curl -L -o /tmp/docker-$CIRCLE_TAG.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
             tar -xz -C /tmp -f /tmp/docker-$VER.tgz
             mv /tmp/docker/* /usr/bin
       - run:
           name: Build AND PUSH
           command: |
-            TAG=$CIRCLE_TAG
-            docker build -t   ${OWNER}/${IMAGE_NAME}:$TAG .
+            docker build -t   ${OWNER}/${IMAGE_NAME}:$CIRCLE_TAG .
             docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push ${OWNER}/${IMAGE_NAME}:$TAG
+            docker push ${OWNER}/${IMAGE_NAME}:$CIRCLE_TAG
+      - save_cache:
+          key: yarn-{{ .Environment.CIRCLE_TAG }}-{{ checksum "/tmp/docker-$CIRCLE_TAG.tgz" }}
+          paths:
+            - /tmp/docker-$CIRCLE_TAG.tgz
 workflows:
   version: 2
   build:
