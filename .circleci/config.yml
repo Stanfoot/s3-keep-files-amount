@@ -24,6 +24,8 @@ jobs:
       - image: circleci/golang:1.9.3
     working_directory: /go/src/github.com/project/repo
     steps:
+      - setup_remote_docker:
+          version: 17.11.0-ce
       - attach_workspace:
           at: .
       - run:
