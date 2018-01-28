@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.9.3
-    working_directory: /go/src/github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
+    working_directory: /go/src/github.com/{{.CIRCLE_PROJECT_USERNAME}}/{{.CIRCLE_PROJECT_REPONAME}}
     steps:
       - setup_remote_docker:
           version: 17.09.0-ce
@@ -12,7 +12,7 @@ jobs:
           name: Install Docker client
           command: |
             set -x
-            VER="17.11.0-ce"
+            VER="17.09.0-ce"
             curl -L -o /tmp/docker-$VER.tgz https://download.docker.com/linux/static/stable/x86_64/docker-$VER.tgz
             tar -xz -C /tmp -f /tmp/docker-$VER.tgz
             mv /tmp/docker/* /usr/bin
