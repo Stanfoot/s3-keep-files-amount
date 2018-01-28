@@ -71,6 +71,7 @@ workflows:
       - test:
           requires:
             - build
+          filters:
             tags:
               only: /.*/
       - push:
