@@ -1,0 +1,6 @@
+schemaVersion: '2.0.0'
+
+fileExistenceTests:
+  - name: 's3-keep-files-amount'
+    path: '/usr/bin/'
+    shouldExist: true

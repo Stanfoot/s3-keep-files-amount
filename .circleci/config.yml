@@ -24,6 +24,24 @@ jobs:
           root: .
           paths:
             - ./docker-image.tar
+  test:
+    <<: *default_env
+    steps:
+      - setup_remote_docker: *setup_remote_docker
+      - attach_workspace:
+          at: .
+      - run:
+          name: Load image from tar
+          command: docker load -i ./docker-image.tar
+      - run:
+          name: Download container-structure-test
+          command: |
+            curl -LO https://storage.googleapis.com/container-structure-test/v0.1.3/container-structure-test \
+            && chmod +x container-structure-test \
+            && sudo mv container-structure-test /usr/local/bin/
+      - run:
+          name: structure-test
+          command: structure-test -test.v -image ${OWNER}/${IMAGE_NAME}:latest image_test.yml
   push:
     <<: *default_env
     steps:
@@ -50,9 +68,15 @@ workflows:
           filters:
             tags:
               only: /.*/
+      - test:
+          requires:
+            - build
+            tags:
+              only: /.*/
       - push:
           requires:
             - build
+            - test
           filters:
             branches:
               ignore: /.*/

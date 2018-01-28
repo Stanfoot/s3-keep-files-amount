@@ -5,3 +5,16 @@ S3のオブジェクトを常に指定数に保ちます。
 ```bash
 s3-keep-files-amount keep [amount] [region] [bucket]
 ```
+
+## Image Test
+### Pull image
+
+```bash
+docker pull gcr.io/gcp-runtimes/container-structure-test:v0.1.3
+```
+
+###
+
+```bash
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v `pwd`/image_test.yml:/test.yaml gcr.io/gcp-runtimes/container-structure-test:v0.1.3 -pull -test.v --image stanfoot/s3-keep-files-amount:latest test.yaml
+```
