@@ -14,11 +14,14 @@ jobs:
           command: docker build -t  ${OWNER}/${IMAGE_NAME}:latest .
       - run:
           name: Save image
-          command: docker image save ${OWNER}/${IMAGE_NAME}:latest > ./${OWNER}-${IMAGE_NAME}.tar
+          command: docker image save ${OWNER}/${IMAGE_NAME}:latest > ./docker-image.tar
+      - run:
+          name: ls
+          command: ls -la
       - persist_to_workspace:
           root: .
           paths:
-            - ./${OWNER}-${IMAGE_NAME}.tar
+            - ./docker-image.tar
   push:
     docker:
       - image: circleci/golang:1.9.3
