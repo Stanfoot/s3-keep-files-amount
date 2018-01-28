@@ -3,10 +3,10 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.9.3
-    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    working_directory: /go/src/github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
     steps:
       - setup_remote_docker:
-          version: 17.11.0-ce
+          version: 17.09.0-ce
           docker_layer_caching: true
       - run:
           name: Install Docker client
