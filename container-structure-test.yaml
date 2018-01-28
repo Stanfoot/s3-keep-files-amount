@@ -1,6 +1,25 @@
 schemaVersion: '2.0.0'
 
+metadataTest:
+  exposedPorts: []
+  entrypoint: []
+  workdir: ["/"]
+
+commandTests:
+  - name: 's3-keep-files-amount root command'
+    command: 's3-keep-files-amount'
+    args: ['--help']
+    expectedOutput: ['Usage.*']
+  - name: 's3-keep-files-amount keep command'
+    command: 's3-keep-files-amount'
+    args: ['keep', '--help']
+    expectedOutput: ['.*Usage.*']
+
 fileExistenceTests:
-  - name: 's3-keep-files-amount'
-    path: '/usr/bin/'
+  - name: 'ca-certificates is exists'
+    path: '/usr/share/ca-certificates/'
     shouldExist: true
+    isDirectory: true
+
+licenseTests:
+  - alpine: true
