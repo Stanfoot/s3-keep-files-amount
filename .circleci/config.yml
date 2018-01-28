@@ -37,7 +37,7 @@ jobs:
       - run:
           name: Download container-structure-test
           command: |
-            curl -LO https://storage.googleapis.com/container-structure-test/v0.2.0/container-structure-test \
+            curl -LO https://storage.googleapis.com/container-structure-test/v0.1.3/container-structure-test \
             && chmod +x container-structure-test \
             && sudo mv container-structure-test /usr/local/bin/structure-test
       - run:
