@@ -1,17 +1,24 @@
-version: 2
-jobs:
-  build:
+alias:
+  default_env: &default_env
     docker:
       - image: circleci/golang:1.9.3
     working_directory: /go/src/github.com/project/repo
+  setup_remote_docker: &setup_remote_docker
+    version: 17.11.0-ce
+    docker_layer_caching: true
+
+---
+
+version: 2
+jobs:
+  build:
+    <<: *default_env
     steps:
-      - setup_remote_docker:
-          version: 17.11.0-ce
-          docker_layer_caching: true
+      - setup_remote_docker: *setup_remote_docker
       - checkout
       - run:
           name: Build
-          command: docker build -t  ${OWNER}/${IMAGE_NAME}:latest .
+          command: docker build -t ${OWNER}/${IMAGE_NAME}:latest .
       - run:
           name: Save image
           command: docker image save ${OWNER}/${IMAGE_NAME}:latest > ./docker-image.tar
@@ -20,12 +27,9 @@ jobs:
           paths:
             - ./docker-image.tar
   push:
-    docker:
-      - image: circleci/golang:1.9.3
-    working_directory: /go/src/github.com/project/repo
+    <<: *default_env
     steps:
-      - setup_remote_docker:
-          version: 17.11.0-ce
+      - setup_remote_docker: *setup_remote_docker
       - attach_workspace:
           at: .
       - run:
