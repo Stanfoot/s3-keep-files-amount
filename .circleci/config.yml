@@ -10,11 +10,17 @@ jobs:
           docker_layer_caching: true
       - checkout
       - run:
-          name: Build AND PUSH
-          command: |
-            docker build -t  ${OWNER}/${IMAGE_NAME}:$CIRCLE_TAG .
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push ${OWNER}/${IMAGE_NAME}:$CIRCLE_TAG
+          name: Build
+          command: docker build -t  ${OWNER}/${IMAGE_NAME}:$CIRCLE_TAG .
+      - run:
+          name: Tag as Latest
+          command: docker tag ${OWNER}/${IMAGE_NAME}:$CIRCLE_TAG ${OWNER}/${IMAGE_NAME}:latest
+      - run:
+          name: Docker Login
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run:
+          name: Push image to registory
+          command: docker push ${OWNER}/${IMAGE_NAME}:$CIRCLE_TAG
 workflows:
   version: 2
   build:
