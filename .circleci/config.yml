@@ -42,7 +42,7 @@ jobs:
             && sudo mv container-structure-test /usr/local/bin/structure-test
       - run:
           name: structure-test
-          command: structure-test -test.v -image ${OWNER}/${IMAGE_NAME}:latest image_test.yml
+          command: structure-test -test.v -image ${OWNER}/${IMAGE_NAME}:latest image_test.yaml
   push:
     <<: *default_env
     steps:
