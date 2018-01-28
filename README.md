@@ -16,5 +16,5 @@ docker pull gcr.io/gcp-runtimes/container-structure-test:v0.1.3
 ###
 
 ```bash
-docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v `pwd`/image_test.yml:/test.yaml gcr.io/gcp-runtimes/container-structure-test:v0.1.3 -pull -test.v --image stanfoot/s3-keep-files-amount:latest test.yaml
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v `pwd`/container-structure-test.yaml:/test.yaml gcr.io/gcp-runtimes/container-structure-test:v0.1.3 -pull -test.v --image stanfoot/s3-keep-files-amount:latest test.yaml
 ```
