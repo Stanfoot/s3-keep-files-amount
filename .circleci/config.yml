@@ -16,10 +16,10 @@ jobs:
       - checkout
       - run:
           name: Build
-          command: docker build -t ${OWNER}/${IMAGE_NAME}:latest .
+          command: make docker-build
       - run:
           name: Save image
-          command: docker image save ${OWNER}/${IMAGE_NAME}:latest > ./docker-image.tar
+          command: make docker-save
       - persist_to_workspace:
           root: .
           paths:
@@ -33,7 +33,7 @@ jobs:
           at: .
       - run:
           name: Load image from tar
-          command: docker load -i ./docker-image.tar
+          command: make docker-load
       - run:
           name: Download container-structure-test
           command: |
@@ -42,7 +42,7 @@ jobs:
             && sudo mv container-structure-test /usr/local/bin/structure-test
       - run:
           name: structure-test
-          command: structure-test -test.v -image ${OWNER}/${IMAGE_NAME}:latest container-structure-test.yaml
+          command: make docker-test
   push:
     <<: *default_env
     steps:
@@ -51,16 +51,16 @@ jobs:
           at: .
       - run:
           name: Load image from tar
-          command: docker load -i ./docker-image.tar
+          command: make docker-load
       - run:
           name: Tag to latest
-          command: docker tag ${OWNER}/${IMAGE_NAME}:latest ${OWNER}/${IMAGE_NAME}:$CIRCLE_TAG
+          command: make docker-tag tag=$CIRCLE_TAG
       - run:
           name: Docker Login
           command: docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
       - run:
           name: Push image to registory
-          command: docker push ${OWNER}/${IMAGE_NAME}
+          command: make docker-push
 workflows:
   version: 2
   build:
