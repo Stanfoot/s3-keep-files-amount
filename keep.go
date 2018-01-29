@@ -9,6 +9,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"time"
 	"fmt"
+	"os"
+	"log"
 )
 
 var Keep = &cobra.Command{
@@ -21,6 +23,11 @@ If you want to keep 5 files, will remove file older No.6`,
 		amount, _ := strconv.Atoi(args[0])
 		region := args[1]
 		bucket := args[2]
+
+
+		if !hasAwsAccess() {
+			log.Fatalln("Environment variable is empty.", "AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY")
+		}
 
 		c := NewS3Client(region, bucket)
 
@@ -46,6 +53,13 @@ type S3Client struct {
 type S3Object struct {
 	key       string
 	createdAt time.Time
+}
+
+func hasAwsAccess() bool {
+	awsAccessKeyId := os.Getenv("AWS_ACCESS_KEY_ID")
+	awsSecretAccessKey := os.Getenv("AWS_SECRET_ACCESS_KEY")
+
+	return awsAccessKeyId != "" && awsSecretAccessKey != ""
 }
 
 func NewS3Client(region string, bucket string) *S3Client {

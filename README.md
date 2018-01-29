@@ -3,7 +3,7 @@
 S3のオブジェクトを常に指定数に保ちます。
 
 ```bash
-s3-keep-files-amount keep [amount] [region] [bucket]
+AWS_ACCESS_KEY_ID=xxxxx AWS_SECRET_ACCESS_KEY=xxxx s3-keep-files-amount keep [amount] [region] [bucket]
 ```
 
 ## Image Test
