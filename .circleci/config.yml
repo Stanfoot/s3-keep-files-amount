@@ -23,8 +23,9 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
+            - ./makefile
             - ./docker-image.tar
-            - container-structure-test.yaml
+            - ./container-structure-test.yaml
   test:
     <<: *default_env
     steps:
